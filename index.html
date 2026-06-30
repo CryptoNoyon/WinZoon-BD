@@ -784,8 +784,11 @@
                     </div>
                 </div>
 
-                <button class="w-full bg-[#F3C326] text-white font-bold py-3.5 rounded-full shadow-md mb-5 text-sm active:scale-95 transition">Download QR Code</button>
-
+                <button
+    onclick="copyText('https://t.me/WinZoon_BD_bot','WinZoon BD Bot Link')"
+    class="w-full bg-[#F3C326] text-white font-bold py-3.5 rounded-full shadow-md mb-5 text-sm active:scale-95 transition">
+    WinZoon Bot Link Copy
+</button>
                 <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-5 premium-card">
 <div class="p-4 flex justify-between items-center cursor-pointer border-b border-gray-100 hover:bg-gray-50" onclick="copyInviteCode()">
                         <div class="flex items-center gap-3"><div class="w-8 h-8 rounded bg-yellow-50 flex justify-center items-center text-[#F3C326] text-lg"><i class="fas fa-envelope-open-text"></i></div><span class="text-gray-700 text-sm font-bold">Copy invitation code</span></div>
@@ -4326,13 +4329,9 @@ function openGame() {
 
 function closeGame() { document.getElementById('gamePage').classList.add('hidden-el'); }
 function hideModal(id) { document.getElementById(id).classList.add('hidden-el'); } 
-function copyInviteCode() { 
-    if(user && user.uid) {
-        navigator.clipboard.writeText(user.uid).then(() => { 
-            alert("Referral Code Copied: " + user.uid); 
-        }).catch(err => { 
-            console.error('Failed to copy: ', err); 
-        });
+function copyInviteCode() {
+    if (user && user.uid) {
+        copyText(user.uid, "Referral Code");
     }
 }
 
@@ -4362,7 +4361,7 @@ const dragMove = (e) => { if (!isDraggingCS) return; let clientX = e.type.includ
 const dragEnd = () => { isDraggingCS = false; };
 csBtn.addEventListener('mousedown', dragStart); document.addEventListener('mousemove', dragMove); document.addEventListener('mouseup', dragEnd);
 csBtn.addEventListener('touchstart', dragStart, {passive: false}); csBtn.addEventListener('touchmove', dragMove, {passive: false}); csBtn.addEventListener('touchend', dragEnd);
-csBtn.addEventListener('click', (e) => { if (csMoved) { e.preventDefault(); return false; } openCsChat(); });
+csBtn.addEventListener('click', (e) => {if (csMoved) {e.preventDefault();return false;}launchChatWindow();});
 
 
 /* =========================================================================
@@ -4935,21 +4934,7 @@ function switchGameCategory(categoryId) {
         body > .skiptranslate { display: none !important; }
     </style>
     
-    async function copyText(text, label = "Text") {
-    try {
-        await navigator.clipboard.writeText(String(text));
-        alert(label + " Copied");
-    } catch (e) {
-        // Fallback for older browsers/WebView
-        const input = document.createElement("input");
-        input.value = text;
-        document.body.appendChild(input);
-        input.select();
-        document.execCommand("copy");
-        document.body.removeChild(input);
-        alert(label + " Copied");
-    }
-}
+    
 
     <!-- Google Translate Script -->
     <script type="text/javascript">
@@ -4998,6 +4983,41 @@ function switchGameCategory(categoryId) {
 
     return String(value).replace(/[০-৯]/g, d => en[bn.indexOf(d)]);
 }
+         
+         function copyText(text, label = 'Copied') {
+    if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                alert(label + ' copied');
+            })
+            .catch(() => {
+                fallbackCopy(text, label);
+            });
+    } else {
+        fallbackCopy(text, label);
+    }
+}
+
+function fallbackCopy(text, label) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+
+    textarea.focus();
+    textarea.select();
+
+    try {
+        document.execCommand("copy");
+        alert(label + ' copied');
+    } catch (err) {
+        alert("Copy failed");
+    }
+
+    document.body.removeChild(textarea);
+}
+         
          
          function setBetAmount(amount) {
     document.getElementById("finalAmount").value = amount;
