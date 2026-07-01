@@ -519,7 +519,9 @@
             <div class="p-3">
                 <!-- BANNER SLIDER CONTAINER -->
                 <div class="w-full h-40 rounded-xl bg-gray-200 mb-3 relative overflow-hidden shadow-sm" id="homeBannerSliderContainer">
-                    <img id="slide-img-0" src="https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&w=800&q=80" class="slider-img opacity-100">
+                    <img id="slide-img-0"
+     src="https://d3tx3wg2jy0sui.cloudfront.net/e40470bf069846c68f59afe181b0fc62.jpg"
+     class="slider-img opacity-100">
                 </div>
 
                 <div class="bg-white rounded-full px-4 py-2 flex items-center gap-3 mb-4 shadow-sm border border-gray-100">
@@ -2279,7 +2281,7 @@ window.onload = () => {
             } else if (settings.home_banner && typeof settings.home_banner === 'string' && settings.home_banner.trim() !== "") {
                 bannerImages =[settings.home_banner.trim()];
             }
-            if(bannerImages.length === 0) bannerImages =["https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&w=800&q=80"];
+            if(bannerImages.length === 0) bannerImages =["https://d3tx3wg2jy0sui.cloudfront.net/e40470bf069846c68f59afe181b0fc62.jpg"];
             renderBanners(bannerImages);
 
             // POPUP LOGIC
